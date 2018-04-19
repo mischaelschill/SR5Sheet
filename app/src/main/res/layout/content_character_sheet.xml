@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	tools:context=".CharacterSheet"
+	tools:showIn="@layout/app_bar_character_sheet">
+	<data>
+		<variable name="joe" type="me.schill.sr5sheet.model.SR5Character"/>
+	</data>
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		app:layout_behavior="@string/appbar_scrolling_view_behavior"
+		android:orientation="vertical">
+
+		<TableLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+			<TableRow>
+
+				<TextView
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_span="2"
+					android:layout_weight="1"
+					android:background="?attr/colorPrimary"
+					android:text="@{joe.name}"
+					android:textAppearance="@android:style/TextAppearance.Large"
+					android:textColor="?attr/textColorPrimary"
+					tools:text="Anonymous"/>
+
+				<Button
+					style="@android:style/Widget.Material.Light.Button.Small"
+					android:layout_gravity="end"
+					android:background="?attr/colorPrimary"
+					android:foreground="@android:drawable/ic_menu_edit"
+					android:onClick="onChangeNamePressed"/>
+			</TableRow>
+			<TableRow>
+				<TextView
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_gravity="center_vertical"
+					android:background="?attr/colorSecondary"
+					android:gravity="center_vertical"
+					android:text="Metatyp: "
+					android:textAppearance="@android:style/TextAppearance.Large"
+					android:textColor="?attr/textColorSecondary"/>
+
+				<TextView
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_gravity="center_vertical"
+					android:layout_weight="2"
+					android:background="?attr/colorSecondary"
+					android:gravity="center_vertical|start"
+					android:text="@{joe.metatype}"
+					android:textAppearance="@android:style/TextAppearance.Large"
+					android:textColor="?attr/textColorSecondary"
+					tools:text="Anonymous"/>
+
+				<Button
+					style="@android:style/Widget.Material.Light.Button.Small"
+					android:layout_gravity="end"
+					android:background="@color/colorSecondary"
+					android:foreground="@android:drawable/ic_menu_edit"/>
+
+			</TableRow>
+		</TableLayout>
+
+
+
+	</LinearLayout>
+</layout>
