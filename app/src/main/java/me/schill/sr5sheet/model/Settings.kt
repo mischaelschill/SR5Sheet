@@ -5,6 +5,7 @@ import org.simpleframework.xml.Root
 
 @Root
 class Settings {
-    @Element
+
+    @field:Element(required = false)
     var currentCharacter: String? = null
 }

@@ -21,11 +21,13 @@ import me.schill.sr5sheet.databinding.ContentCharacterSheetBinding
 
 
 class CharacterSheet : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+    val cm = CharacterManager()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        cm.init(applicationContext.filesDir);
         val binding = DataBindingUtil.setContentView(this, R.layout.activity_character_sheet) as ActivityCharacterSheetBinding
-        binding.setJoeInContent(CharacterManager.current)
+        binding.setJoeInContent(cm.current)
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -38,25 +40,47 @@ class CharacterSheet : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
-
     }
 
-    fun onChangeNamePressed(view: View) {
+    fun onLongClickOnField(view: View) {
+        var title: String
+        var current:  String
+        var setter: (String) -> Unit
+        when (view.tag) {
+            "name" -> {
+                title = "Name"
+                current = cm.current.name
+                setter = {value -> cm.current.name = value}
+            }
+            "metatype" -> {
+                title = "Metatyp"
+                current = cm.current.metatype
+                setter = {value -> cm.current.metatype = value}
+            }
+            "ethnicity" -> {
+                title = "Ethnie"
+                current = cm.current.ethnicity
+                setter = {value -> cm.current.ethnicity = value}
+            }
+            else -> {
+                return;
+            }
+        }
         val builder = AlertDialog.Builder(this);
-        builder.setTitle("Title");
+        builder.setTitle(title);
 
         // Set up the input
         val input = EditText(this);
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         input.setInputType(InputType::TYPE_CLASS_TEXT.get())
-        input.setText(CharacterManager.current.name)
+        input.setText(current)
         builder.setView(input)
 
         // Set up the buttons
         builder.setPositiveButton("OK", object: DialogInterface.OnClickListener {
             override fun onClick(dialog: DialogInterface?, which: Int) {
-                CharacterManager.current.name = input.getText().toString().replace("/", "-");
-                CharacterManager.save()
+                setter(input.getText().toString().replace("/", "-"));
+                cm.save()
             }
         })
         builder.setNegativeButton("Cancel", object: DialogInterface.OnClickListener {

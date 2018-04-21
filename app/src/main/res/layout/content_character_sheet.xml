@@ -18,7 +18,6 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
 			<TableRow>
-
 				<TextView
 					android:layout_width="fill_parent"
 					android:layout_height="fill_parent"
@@ -29,13 +28,14 @@
 					android:textAppearance="@android:style/TextAppearance.Large"
 					android:textColor="?attr/textColorPrimary"
 					tools:text="Anonymous"/>
-
 				<Button
 					style="@android:style/Widget.Material.Light.Button.Small"
 					android:layout_gravity="end"
-					android:background="?attr/colorPrimary"
+					android:background="@color/colorSecondary"
 					android:foreground="@android:drawable/ic_menu_edit"
-					android:onClick="onChangeNamePressed"/>
+					android:tag="name"
+					android:onClick="onLongClickOnField"
+					/>
 			</TableRow>
 			<TableRow>
 				<TextView
@@ -58,14 +58,45 @@
 					android:text="@{joe.metatype}"
 					android:textAppearance="@android:style/TextAppearance.Large"
 					android:textColor="?attr/textColorSecondary"
-					tools:text="Anonymous"/>
-
+					tools:text="Mensch"/>
 				<Button
 					style="@android:style/Widget.Material.Light.Button.Small"
 					android:layout_gravity="end"
 					android:background="@color/colorSecondary"
-					android:foreground="@android:drawable/ic_menu_edit"/>
+					android:foreground="@android:drawable/ic_menu_edit"
+					android:tag="metatype"
+					android:onClick="onLongClickOnField"
+					/>
+			</TableRow>
+			<TableRow>
+				<TextView
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_gravity="center_vertical"
+					android:background="?attr/colorSecondary"
+					android:gravity="center_vertical"
+					android:text="Ethnie: "
+					android:textAppearance="@android:style/TextAppearance.Large"
+					android:textColor="?attr/textColorSecondary"/>
 
+				<TextView
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_gravity="center_vertical"
+					android:layout_weight="2"
+					android:background="?attr/colorSecondary"
+					android:gravity="center_vertical|start"
+					android:text="@{joe.ethnicity}"
+					android:textAppearance="@android:style/TextAppearance.Large"
+					android:textColor="?attr/textColorSecondary"/>
+				<Button
+					style="@android:style/Widget.Material.Light.Button.Small"
+					android:layout_gravity="end"
+					android:background="@color/colorSecondary"
+					android:foreground="@android:drawable/ic_menu_edit"
+					android:tag="ethnicity"
+					android:onClick="onLongClickOnField"
+					/>
 			</TableRow>
 		</TableLayout>
 
