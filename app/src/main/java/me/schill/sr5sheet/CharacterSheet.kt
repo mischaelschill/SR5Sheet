@@ -16,6 +16,8 @@ import android.support.v7.app.AlertDialog
 import android.text.InputType
 import android.view.View
 import android.widget.EditText
+import android.widget.NumberPicker
+import android.widget.SeekBar
 import me.schill.sr5sheet.databinding.ActivityCharacterSheetBinding
 import me.schill.sr5sheet.databinding.ContentCharacterSheetBinding
 
@@ -44,7 +46,7 @@ class CharacterSheet : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
     fun onLongClickOnField(view: View) {
         var title: String
-        var current:  String
+        var current: String
         var setter: (String) -> Unit
         when (view.tag) {
             "name" -> {
@@ -61,6 +63,11 @@ class CharacterSheet : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 title = "Ethnie"
                 current = cm.current.ethnicity
                 setter = {value -> cm.current.ethnicity = value}
+            }
+            "sex" -> {
+                title = "Geschlecht"
+                current = cm.current.sex
+                setter = {value -> cm.current.sex = value}
             }
             else -> {
                 return;
@@ -80,6 +87,99 @@ class CharacterSheet : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         builder.setPositiveButton("OK", object: DialogInterface.OnClickListener {
             override fun onClick(dialog: DialogInterface?, which: Int) {
                 setter(input.getText().toString().replace("/", "-"));
+                cm.save()
+            }
+        })
+        builder.setNegativeButton("Cancel", object: DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface?, which: Int) {
+                dialog?.cancel();
+            }
+        })
+
+        builder.show();
+    }
+
+    fun editIntegerAttribute(view: View) {
+        var title: String
+        var current: Int
+        var maxValue: Int
+        var minValue: Int
+        var setter: (Int) -> Unit
+        when (view.tag) {
+            "age" -> {
+                title = "Alter"
+                current = cm.current.age
+                minValue = 0
+                maxValue = 200
+                setter = {value -> cm.current.age = value}
+            }
+            "height" -> {
+                title = "Grösse"
+                current = cm.current.height
+                minValue = 20
+                maxValue = 500
+                setter = {value -> cm.current.height = value}
+            }
+            "weight" -> {
+                title = "Gewicht"
+                current = cm.current.weight
+                minValue = 1
+                maxValue = 500
+                setter = {value -> cm.current.weight = value}
+            }
+            "streetCred" -> {
+                title = "Strassenruf"
+                current = cm.current.streetCred
+                minValue = 0
+                maxValue = 100
+                setter = {value -> cm.current.streetCred = value}
+            }
+            "notoriety" -> {
+                title = "Schlechter Ruf"
+                current = cm.current.notoriety
+                minValue = 0
+                maxValue = 100
+                setter = {value -> cm.current.notoriety = value}
+            }
+            "publicAwareness" -> {
+                title = "Prominenz"
+                current = cm.current.publicAwareness
+                minValue = 0
+                maxValue = 100
+                setter = {value -> cm.current.publicAwareness = value}
+            }
+            "karma" -> {
+                title = "Karma"
+                current = cm.current.karma
+                minValue = 0
+                maxValue = 1000
+                setter = {value -> cm.current.karma = value}
+            }
+            "totalKarma" -> {
+                title = "Total Karma"
+                current = cm.current.totalKarma
+                minValue = 0
+                maxValue = 2000
+                setter = {value -> cm.current.totalKarma = value}
+            }
+            else -> {
+                return;
+            }
+        }
+        val builder = AlertDialog.Builder(this);
+        builder.setTitle(title);
+
+        // Set up the input
+        val input = NumberPicker(this);
+        input.minValue = minValue
+        input.maxValue = maxValue
+        input.value = current
+        builder.setView(input)
+
+        // Set up the buttons
+        builder.setPositiveButton("OK", object: DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface?, which: Int) {
+                setter(input.value);
                 cm.save()
             }
         })
