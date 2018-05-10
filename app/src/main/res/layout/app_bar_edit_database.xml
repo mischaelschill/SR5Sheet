@@ -4,13 +4,13 @@
         xmlns:tools="http://schemas.android.com/tools">
 
 	<data>
-		<variable name="joe" type="me.schill.sr5sheet.model.SR5Character"/>
+		<variable name="db" type="me.schill.sr5sheet.model.Database"/>
 	</data>
 
 	<android.support.design.widget.CoordinatorLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		tools:context=".CharacterSheet">
+		tools:context=".EditDatabase">
 
 		<android.support.design.widget.AppBarLayout
 			android:layout_width="match_parent"
@@ -20,9 +20,9 @@
 		</android.support.design.widget.AppBarLayout>
 
 		<include
-			layout="@layout/content_character_sheet"
+			layout="@layout/content_edit_database"
 			android:id="@+id/content"
-			app:joe="@{joe}"/>
+			app:db="@{db}"/>
 
 		<android.support.design.widget.FloatingActionButton
 			android:id="@+id/fab"

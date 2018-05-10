@@ -1,25 +1,25 @@
 package me.schill.sr5sheet
 
 import android.content.DialogInterface
+import android.content.Intent
+import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
+import android.support.design.widget.Snackbar
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
-import kotlinx.android.synthetic.main.activity_character_sheet.*
-import kotlinx.android.synthetic.main.app_bar_character_sheet.*
-import android.databinding.DataBindingUtil
-import android.support.v7.app.AlertDialog
-import android.text.InputType
 import android.view.View
 import android.widget.EditText
 import android.widget.NumberPicker
-import android.widget.SeekBar
+import kotlinx.android.synthetic.main.activity_character_sheet.*
+import kotlinx.android.synthetic.main.app_bar_character_sheet.*
 import me.schill.sr5sheet.databinding.ActivityCharacterSheetBinding
-import me.schill.sr5sheet.databinding.ContentCharacterSheetBinding
+import me.schill.sr5sheet.databinding.NavHeaderCharacterSheetBinding
 
 
 class CharacterSheet : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -29,7 +29,7 @@ class CharacterSheet : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         super.onCreate(savedInstanceState)
         cm.init(applicationContext.filesDir);
         val binding = DataBindingUtil.setContentView(this, R.layout.activity_character_sheet) as ActivityCharacterSheetBinding
-        binding.setJoeInContent(cm.current)
+        binding.joeInContent = cm.current
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -41,7 +41,11 @@ class CharacterSheet : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
-        nav_view.setNavigationItemSelectedListener(this)
+        val bind = DataBindingUtil.inflate(layoutInflater, R.layout.nav_header_character_sheet, binding.navView, false) as NavHeaderCharacterSheetBinding
+        binding.navView.addHeaderView(bind.getRoot())
+        bind.joe = cm.current
+
+        binding.navView.setNavigationItemSelectedListener(this)
     }
 
     fun onLongClickOnField(view: View) {
@@ -87,7 +91,6 @@ class CharacterSheet : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         builder.setPositiveButton("OK", object: DialogInterface.OnClickListener {
             override fun onClick(dialog: DialogInterface?, which: Int) {
                 setter(input.getText().toString().replace("/", "-"));
-                cm.save()
             }
         })
         builder.setNegativeButton("Cancel", object: DialogInterface.OnClickListener {
@@ -180,7 +183,6 @@ class CharacterSheet : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         builder.setPositiveButton("OK", object: DialogInterface.OnClickListener {
             override fun onClick(dialog: DialogInterface?, which: Int) {
                 setter(input.value);
-                cm.save()
             }
         })
         builder.setNegativeButton("Cancel", object: DialogInterface.OnClickListener {
@@ -219,17 +221,9 @@ class CharacterSheet : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_camera -> {
-                // Handle the camera action
-            }
-            R.id.nav_gallery -> {
-
-            }
-            R.id.nav_slideshow -> {
-
-            }
-            R.id.nav_manage -> {
-
+            R.id.nav_database -> {
+                val intent = Intent(this, EditDatabase::class.java);
+                startActivity(intent)
             }
             R.id.nav_share -> {
 

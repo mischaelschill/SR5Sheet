@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools">
 
 	<data>
-		<variable name="joeInContent" type="me.schill.sr5sheet.model.SR5Character"/>
+		<variable name="db" type="me.schill.sr5sheet.model.Database"/>
 	</data>
 
 	<android.support.v4.widget.DrawerLayout
@@ -15,11 +15,11 @@
 		tools:openDrawer="start">
 
 		<include
-			layout="@layout/app_bar_character_sheet"
 			android:id="@+id/app_bar"
-			app:joe="@{joeInContent}"
+			layout="@layout/app_bar_edit_database"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"/>
+			android:layout_height="match_parent"
+			app:db="@{db}"/>
 
 		<android.support.design.widget.NavigationView
 			android:id="@+id/nav_view"
@@ -27,7 +27,7 @@
 			android:layout_height="match_parent"
 			android:layout_gravity="start"
 			android:fitsSystemWindows="true"
-			app:menu="@menu/activity_character_sheet_drawer"/>
+			app:menu="@menu/activity_edit_database_drawer"/>
 
 	</android.support.v4.widget.DrawerLayout>
 </layout>
