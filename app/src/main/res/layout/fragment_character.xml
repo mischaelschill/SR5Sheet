@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".CharacterFragment"
+    tools:showIn="@layout/app_bar_character_sheet">
+
+    <data>
+
+        <variable
+            name="entity"
+            type="me.schill.sr5sheet.model.SR5Character" />
+
+        <variable
+            name="fm"
+            type="me.schill.sr5sheet.CharacterFragment" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:background="?attr/colorSecondary"
+                        android:gravity="center_vertical"
+                        android:text="Name: "
+                        android:textAppearance="@android:style/TextAppearance.Large"
+                        android:textColor="?attr/textColorSecondary" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:background="?attr/colorSecondary"
+                        android:gravity="center_vertical|start"
+                        android:text="@{entity.name}"
+                        android:textAppearance="@android:style/TextAppearance.Large"
+                        android:textColor="?attr/textColorSecondary"
+                        tools:text="Mensch" />
+
+                    <Button
+                        style="@android:style/Widget.Material.Light.Button.Small"
+                        android:layout_gravity="end"
+                        android:background="@color/colorSecondary"
+                        android:foreground="@android:drawable/ic_menu_edit"
+                        android:onClick="@{fm::onLongClickOnField}"
+                        android:tag="name" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:background="?attr/colorSecondary"
+                        android:gravity="center_vertical"
+                        android:text="Metatyp: "
+                        android:textAppearance="@android:style/TextAppearance.Large"
+                        android:textColor="?attr/textColorSecondary" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:background="?attr/colorSecondary"
+                        android:gravity="center_vertical|start"
+                        android:text="@{entity.metatype}"
+                        android:textAppearance="@android:style/TextAppearance.Large"
+                        android:textColor="?attr/textColorSecondary"
+                        tools:text="Mensch" />
+
+                    <Button
+                        style="@android:style/Widget.Material.Light.Button.Small"
+                        android:layout_gravity="end"
+                        android:background="@color/colorSecondary"
+                        android:foreground="@android:drawable/ic_menu_edit"
+                        android:onClick="@{fm::onLongClickOnField}"
+                        android:tag="metatype" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:background="?attr/colorSecondary"
+                        android:gravity="center_vertical"
+                        android:text="Ethnie: "
+                        android:textAppearance="@android:style/TextAppearance.Large"
+                        android:textColor="?attr/textColorSecondary" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:background="?attr/colorSecondary"
+                        android:gravity="center_vertical|start"
+                        android:text="@{entity.ethnicity}"
+                        android:textAppearance="@android:style/TextAppearance.Large"
+                        android:textColor="?attr/textColorSecondary" />
+
+                    <Button
+                        style="@android:style/Widget.Material.Light.Button.Small"
+                        android:layout_gravity="end"
+                        android:background="@color/colorSecondary"
+                        android:foreground="@android:drawable/ic_menu_edit"
+                        android:onClick="@{fm::onLongClickOnField}"
+                        android:tag="ethnicity" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:background="?attr/colorSecondary"
+                        android:gravity="center_vertical"
+                        android:text="Alter: "
+                        android:textAppearance="@android:style/TextAppearance.Large"
+                        android:textColor="?attr/textColorSecondary" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:background="?attr/colorSecondary"
+                        android:gravity="center_vertical|start"
+                        android:text="@{String.valueOf(entity.age)}"
+                        android:textAppearance="@android:style/TextAppearance.Large"
+                        android:textColor="?attr/textColorSecondary" />
+
+                    <Button
+                        style="@android:style/Widget.Material.Light.Button.Small"
+                        android:layout_gravity="end"
+                        android:background="@color/colorSecondary"
+                        android:foreground="@android:drawable/ic_menu_edit"
+                        android:onClick="@{fm::editIntegerAttribute}"
+                        android:tag="age" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:background="?attr/colorSecondary"
+                        android:gravity="center_vertical"
+                        android:text="Geschlecht: "
+                        android:textAppearance="@android:style/TextAppearance.Large"
+                        android:textColor="?attr/textColorSecondary" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:background="?attr/colorSecondary"
+                        android:gravity="center_vertical|start"
+                        android:text="@{entity.sex}"
+                        android:textAppearance="@android:style/TextAppearance.Large"
+                        android:textColor="?attr/textColorSecondary" />
+
+                    <Button
+                        style="@android:style/Widget.Material.Light.Button.Small"
+                        android:layout_gravity="end"
+                        android:background="@color/colorSecondary"
+                        android:foreground="@android:drawable/ic_menu_edit"
+                        android:onClick="@{fm::onLongClickOnField}"
+                        android:tag="sex" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:background="?attr/colorSecondary"
+                        android:gravity="center_vertical"
+                        android:text="Grösse: "
+                        android:textAppearance="@android:style/TextAppearance.Large"
+                        android:textColor="?attr/textColorSecondary" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:background="?attr/colorSecondary"
+                        android:gravity="center_vertical|start"
+                        android:text="@{String.valueOf(entity.height)}"
+                        android:textAppearance="@android:style/TextAppearance.Large"
+                        android:textColor="?attr/textColorSecondary" />
+
+                    <Button
+                        style="@android:style/Widget.Material.Light.Button.Small"
+                        android:layout_gravity="end"
+                        android:background="@color/colorSecondary"
+                        android:foreground="@android:drawable/ic_menu_edit"
+                        android:onClick="@{fm::editIntegerAttribute}"
+                        android:tag="height" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:background="?attr/colorSecondary"
+                        android:gravity="center_vertical"
+                        android:text="Gewicht: "
+                        android:textAppearance="@android:style/TextAppearance.Large"
+                        android:textColor="?attr/textColorSecondary" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:background="?attr/colorSecondary"
+                        android:gravity="center_vertical|start"
+                        android:text="@{String.valueOf(entity.weight)}"
+                        android:textAppearance="@android:style/TextAppearance.Large"
+                        android:textColor="?attr/textColorSecondary" />
+
+                    <Button
+                        style="@android:style/Widget.Material.Light.Button.Small"
+                        android:layout_gravity="end"
+                        android:background="@color/colorSecondary"
+                        android:foreground="@android:drawable/ic_menu_edit"
+                        android:onClick="@{fm::editIntegerAttribute}"
+                        android:tag="weight" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:background="?attr/colorSecondary"
+                        android:gravity="center_vertical"
+                        android:text="Strassenruf: "
+                        android:textAppearance="@android:style/TextAppearance.Large"
+                        android:textColor="?attr/textColorSecondary" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:background="?attr/colorSecondary"
+                        android:gravity="center_vertical|start"
+                        android:text="@{String.valueOf(entity.streetCred)}"
+                        android:textAppearance="@android:style/TextAppearance.Large"
+                        android:textColor="?attr/textColorSecondary" />
+
+                    <Button
+                        style="@android:style/Widget.Material.Light.Button.Small"
+                        android:layout_gravity="end"
+                        android:background="@color/colorSecondary"
+                        android:foreground="@android:drawable/ic_menu_edit"
+                        android:onClick="@{fm::editIntegerAttribute}"
+                        android:tag="streetCred" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:background="?attr/colorSecondary"
+                        android:gravity="center_vertical"
+                        android:text="Schlechter Ruf: "
+                        android:textAppearance="@android:style/TextAppearance.Large"
+                        android:textColor="?attr/textColorSecondary" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:background="?attr/colorSecondary"
+                        android:gravity="center_vertical|start"
+                        android:text="@{String.valueOf(entity.notoriety)}"
+                        android:textAppearance="@android:style/TextAppearance.Large"
+                        android:textColor="?attr/textColorSecondary" />
+
+                    <Button
+                        style="@android:style/Widget.Material.Light.Button.Small"
+                        android:layout_gravity="end"
+                        android:background="@color/colorSecondary"
+                        android:foreground="@android:drawable/ic_menu_edit"
+                        android:onClick="@{fm::editIntegerAttribute}"
+                        android:tag="notoriety" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:background="?attr/colorSecondary"
+                        android:gravity="center_vertical"
+                        android:text="Prominenz: "
+                        android:textAppearance="@android:style/TextAppearance.Large"
+                        android:textColor="?attr/textColorSecondary" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:background="?attr/colorSecondary"
+                        android:gravity="center_vertical|start"
+                        android:text="@{String.valueOf(entity.publicAwareness)}"
+                        android:textAppearance="@android:style/TextAppearance.Large"
+                        android:textColor="?attr/textColorSecondary" />
+
+                    <Button
+                        style="@android:style/Widget.Material.Light.Button.Small"
+                        android:layout_gravity="end"
+                        android:background="@color/colorSecondary"
+                        android:foreground="@android:drawable/ic_menu_edit"
+                        android:onClick="@{fm::editIntegerAttribute}"
+                        android:tag="publicAwareness" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:background="?attr/colorSecondary"
+                        android:gravity="center_vertical"
+                        android:text="Karma: "
+                        android:textAppearance="@android:style/TextAppearance.Large"
+                        android:textColor="?attr/textColorSecondary" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:background="?attr/colorSecondary"
+                        android:gravity="center_vertical|start"
+                        android:text="@{String.valueOf(entity.karma)}"
+                        android:textAppearance="@android:style/TextAppearance.Large"
+                        android:textColor="?attr/textColorSecondary" />
+
+                    <Button
+                        style="@android:style/Widget.Material.Light.Button.Small"
+                        android:layout_gravity="end"
+                        android:background="@color/colorSecondary"
+                        android:foreground="@android:drawable/ic_menu_edit"
+                        android:onClick="@{fm::editIntegerAttribute}"
+                        android:tag="karma" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:background="?attr/colorSecondary"
+                        android:gravity="center_vertical"
+                        android:text="Gesamtkarma: "
+                        android:textAppearance="@android:style/TextAppearance.Large"
+                        android:textColor="?attr/textColorSecondary" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:background="?attr/colorSecondary"
+                        android:gravity="center_vertical|start"
+                        android:text="@{String.valueOf(entity.totalKarma)}"
+                        android:textAppearance="@android:style/TextAppearance.Large"
+                        android:textColor="?attr/textColorSecondary" />
+
+                    <Button
+                        style="@android:style/Widget.Material.Light.Button.Small"
+                        android:layout_gravity="end"
+                        android:background="@color/colorSecondary"
+                        android:foreground="@android:drawable/ic_menu_edit"
+                        android:onClick="@{fm::editIntegerAttribute}"
+                        android:tag="totalKarma" />
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+    </ScrollView>
+</layout>

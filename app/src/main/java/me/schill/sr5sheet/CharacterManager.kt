@@ -5,13 +5,11 @@ import me.schill.sr5sheet.model.Settings
 import me.schill.sr5sheet.persistence.Persistence
 import me.schill.sr5sheet.persistence.Ref
 import java.io.File
-import java.util.*
 
 class CharacterManager {
 	lateinit var settings: Settings
 	lateinit var current: SR5Character
-	private var currentId = UUID.randomUUID().toString()
-    private val loggerUnit = "CharacterManager"
+	private val loggerUnit = javaClass.simpleName
 
     fun init(filesDir: File) {
 	    Persistence.init(filesDir)

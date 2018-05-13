@@ -10,7 +10,7 @@ class DatabaseManager {
 
 	lateinit var settings: Settings
 	lateinit var database: Database
-	private val loggerUnit = "DatabaseManager"
+	private val loggerUnit = javaClass.simpleName
 
 	fun init(filesDir: File) {
 		Persistence.init(filesDir)

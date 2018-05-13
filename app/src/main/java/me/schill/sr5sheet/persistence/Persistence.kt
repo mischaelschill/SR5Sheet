@@ -13,7 +13,7 @@ object Persistence : Observable.OnPropertyChangedCallback() {
 	private var initialized = false;
 	private val cache = HashMap<UUID, Entity>();
 	private val mapper = ObjectMapper().registerModule(KotlinModule())
-	val loggerUnit = "Persistence"
+	val loggerUnit = javaClass.simpleName
 
 	fun init(filesDir: File) {
 		if (!initialized) {
@@ -35,7 +35,6 @@ object Persistence : Observable.OnPropertyChangedCallback() {
 	@Suppress("UNCHECKED_CAST")
 	fun <T : Entity> load(id: UUID, cl: Class<T>): T {
 		Log.i(loggerUnit, "Loading object: " + id.toString() + " (" + cl.name + ")")
-		val ret: T
 		try {
 			synchronized(this, {
 				if (cache.containsKey(id)) {

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".DatabaseFragment"
+    tools:showIn="@layout/app_bar_character_sheet">
+
+    <data>
+
+        <variable
+            name="entity"
+            type="me.schill.sr5sheet.model.Database" />
+
+        <variable
+            name="fm"
+            type="me.schill.sr5sheet.DatabaseFragment" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableLayout
+            android:id="@+id/attributes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="2"
+                    android:background="?attr/colorSecondary"
+                    android:gravity="center_vertical"
+                    android:text="Attribute"
+                    android:textAppearance="@android:style/TextAppearance.Large"
+                    android:textColor="?attr/textColorSecondary" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_weight="0"
+                    android:drawableRight="@android:drawable/ic_menu_add"
+                    android:gravity="right"
+                    android:onClick="@{fm::addAttribute}" />
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
+</layout>

@@ -5,9 +5,14 @@
 
 	<group android:checkableBehavior="single">
 		<item
-			android:id="@+id/nav_database"
-			android:icon="@drawable/ic_menu_manage"
-			android:title="Database"/>
+            android:id="@+id/nav_character"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Character" />
+
+        <item
+            android:id="@+id/nav_database"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Database" />
 	</group>
 
 	<item android:title="Communicate">
