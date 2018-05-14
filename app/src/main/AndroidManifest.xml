@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="me.schill.sr5sheet"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	package="me.schill.sr5sheet">
 
 	<application
 		android:allowBackup="true"
@@ -12,21 +12,12 @@
 		<activity
 			android:name=".CharacterSheet"
 			android:label="@string/app_name"
-			android:theme="@style/AppTheme">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN"/>
-
-				<category android:name="android.intent.category.LAUNCHER"/>
-			</intent-filter>
-		</activity>
-		<activity
-			android:name=".EditDatabase"
-			android:label="@string/title_activity_edit_database"
-			android:parentActivityName=".CharacterSheet"
 			android:theme="@style/AppTheme.NoActionBar">
-			<meta-data
-				android:name="android.support.PARENT_ACTIVITY"
-				android:value="me.schill.sr5sheet.CharacterSheet"/>
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
 		</activity>
 	</application>
 

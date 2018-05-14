@@ -13,7 +13,6 @@ import me.schill.sr5sheet.model.SR5Character
 import me.schill.sr5sheet.persistence.Persistence
 
 class CharacterFragment : EntityFragment<SR5Character, FragmentCharacterBinding>(SR5Character::class.java, R.layout.fragment_character) {
-
 	override fun onAttach(context: Context) {
 		super.onAttach(context)
 	}
@@ -32,35 +31,7 @@ class CharacterFragment : EntityFragment<SR5Character, FragmentCharacterBinding>
 				}
 	}
 
-	fun onLongClickOnField(view: View) {
-		var title: String
-		var current: String
-		var setter: (String) -> Unit
-		when (view.tag) {
-			"name" -> {
-				title = "Name"
-				current = entity.name
-				setter = { value -> entity.name = value }
-			}
-			"metatype" -> {
-				title = "Metatyp"
-				current = entity.metatype
-				setter = { value -> entity.metatype = value }
-			}
-			"ethnicity" -> {
-				title = "Ethnie"
-				current = entity.ethnicity
-				setter = { value -> entity.ethnicity = value }
-			}
-			"sex" -> {
-				title = "Geschlecht"
-				current = entity.sex
-				setter = { value -> entity.sex = value }
-			}
-			else -> {
-				return;
-			}
-		}
+	fun showDialog(title: String, current: String, setter: (String) -> Unit) {
 		val builder = AlertDialog.Builder(requireContext());
 		builder.setTitle(title);
 
@@ -87,12 +58,34 @@ class CharacterFragment : EntityFragment<SR5Character, FragmentCharacterBinding>
 		builder.show();
 	}
 
+	fun changeValueListener(view: View): Unit {
+		var result = true
+		when (view.tag) {
+			"name" -> {
+				showDialog("Name", entity.name, { value -> entity.name = value })
+			}
+			"metatype" -> {
+				showDialog("Metatyp", entity.metatype, { value -> entity.metatype = value })
+			}
+			"ethnicity" -> {
+				showDialog("Ethnie", entity.ethnicity, { value -> entity.ethnicity = value })
+			}
+			"sex" -> {
+				showDialog("Geschlecht", entity.sex, { value -> entity.sex = value })
+			}
+			else -> {
+				result = false
+			}
+		}
+
+	}
+
 	fun editIntegerAttribute(view: View) {
-		var title: String
-		var current: Int
-		var maxValue: Int
-		var minValue: Int
-		var setter: (Int) -> Unit
+		val title: String
+		val current: Int
+		val maxValue: Int
+		val minValue: Int
+		val setter: (Int) -> Unit
 		when (view.tag) {
 			"age" -> {
 				title = "Alter"
