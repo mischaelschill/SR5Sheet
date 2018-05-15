@@ -7,4 +7,6 @@
 	<string name="action_settings">Settings</string>
 	<string name="database_attributes_fragment_title">Datenbank: Attribute</string>
 	<string name="add_attribute">Attribut hinzufügen</string>
+	<string name="database_attributes_new_attribute">Neues Attribut</string>
+	<string name="attribute_name">Name</string>
 </resources>

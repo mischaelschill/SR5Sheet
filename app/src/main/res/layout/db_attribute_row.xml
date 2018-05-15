@@ -5,7 +5,10 @@
 	tools:context=".EditDatabase"
 	tools:showIn="@layout/app_bar_character_sheet">
 	<data>
-		<variable name="attr" type="me.schill.sr5sheet.model.Attribute"/>
+
+		<variable
+			name="attr"
+			type="me.schill.sr5sheet.model.AttributeType" />
 	</data>
 	<TableRow
           android:layout_width="match_parent"

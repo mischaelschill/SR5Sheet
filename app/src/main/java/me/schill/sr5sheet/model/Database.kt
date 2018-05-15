@@ -6,5 +6,5 @@ import me.schill.sr5sheet.persistence.Entity
 
 class Database : Entity() {
 	@JsonProperty
-	val attributes: ObservableArrayList<Attribute> = ObservableArrayList()
+	val attributes: ObservableArrayList<AttributeType> = ObservableArrayList()
 }
