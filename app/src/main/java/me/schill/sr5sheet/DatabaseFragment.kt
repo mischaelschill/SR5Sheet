@@ -1,15 +1,14 @@
 package me.schill.sr5sheet
 
 import android.content.Context
+import android.databinding.ObservableList
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.EditText
 import android.widget.LinearLayout
 import me.schill.sr5sheet.databinding.DbAttributeRowBinding
@@ -18,15 +17,80 @@ import me.schill.sr5sheet.model.Attribute
 import me.schill.sr5sheet.model.Database
 import me.schill.sr5sheet.persistence.Persistence
 
-class DatabaseFragment : EntityFragment<Database, FragmentDatabaseBinding>(Database::class.java, R.layout.fragment_database) {
+class DatabaseFragment :
+		EntityFragment<Database, FragmentDatabaseBinding>(Database::class.java, R.layout.fragment_database) {
+	override val title: String
+		get() {
+			return getString(R.string.database_attributes_fragment_title)
+		}
+
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		val result = super.onCreateView(inflater, container, savedInstanceState)
 		entity.attributes.forEach({
-			val attrBind = DbAttributeRowBinding.inflate(layoutInflater, binding.attributes, true)
-			attrBind.attr = it
-			Log.i("EditDatabase", "added attribute " + it.name)
+			addAttributeRow(it)
+		})
+		entity.attributes.addOnListChangedCallback(object : ObservableList.OnListChangedCallback<ObservableList<Attribute>>() {
+			override fun onChanged(sender: ObservableList<Attribute>?) {
+				binding.attributes.removeAllViewsInLayout()
+				entity.attributes.forEach({
+					addAttributeRow(it)
+				})
+			}
+
+			override fun onItemRangeRemoved(sender: ObservableList<Attribute>?, positionStart: Int, itemCount: Int) {
+				binding.attributes.removeViewsInLayout(positionStart, itemCount)
+			}
+
+			override fun onItemRangeMoved(sender: ObservableList<Attribute>?, fromPosition: Int, toPosition: Int, itemCount: Int) {
+				onChanged(sender)
+			}
+
+			override fun onItemRangeInserted(sender: ObservableList<Attribute>?, positionStart: Int, itemCount: Int) {
+				var index = positionStart
+				sender?.subList(positionStart, positionStart + itemCount)?.forEach {
+					val attrBind = DbAttributeRowBinding.inflate(layoutInflater, binding.attributes, false)
+					attrBind.attr = it
+					binding.attributes.addView(attrBind.root, index)
+					index++
+				}
+			}
+
+			override fun onItemRangeChanged(sender: ObservableList<Attribute>?, positionStart: Int, itemCount: Int) {
+				var index = positionStart
+				binding.attributes.removeViewsInLayout(positionStart, itemCount)
+				sender?.subList(positionStart, positionStart + itemCount)?.forEach {
+					val attrBind = DbAttributeRowBinding.inflate(layoutInflater, binding.attributes, false)
+					attrBind.attr = it
+					binding.attributes.addView(attrBind.root, index)
+					index++
+				}
+			}
 		})
 		return result;
+	}
+
+	private fun addAttributeRow(attribute: Attribute) {
+		val attrBind = DbAttributeRowBinding.inflate(layoutInflater, binding.attributes, true)
+		attrBind.attr = attribute
+		Log.i("EditDatabase", "added attribute " + attribute.name)
+	}
+
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+		setHasOptionsMenu(true)
+	}
+
+	override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+		//super.onCreateOptionsMenu(menu, inflater)
+		inflater?.inflate(R.menu.database_attributes_fragment, menu)
+	}
+
+	override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+		if (item?.itemId == R.id.action_add_attribute) {
+			addAttribute()
+			return true
+		}
+		return false
 	}
 
 	override fun onAttach(context: Context) {
@@ -47,7 +111,7 @@ class DatabaseFragment : EntityFragment<Database, FragmentDatabaseBinding>(Datab
 				}
 	}
 
-	fun addAttribute(view: View) {
+	fun addAttribute() {
 		val builder = AlertDialog.Builder(requireContext());
 		builder.setTitle("Neues Attribut");
 

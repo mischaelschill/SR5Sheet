@@ -5,4 +5,6 @@
 	<string name="nav_header_title_character">Charakter</string>
 	<string name="nav_header_title_database">Datenbank</string>
 	<string name="action_settings">Settings</string>
+	<string name="database_attributes_fragment_title">Datenbank: Attribute</string>
+	<string name="add_attribute">Attribut hinzufügen</string>
 </resources>

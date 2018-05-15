@@ -8,7 +8,7 @@ import me.schill.sr5sheet.persistence.Entity
 import me.schill.sr5sheet.persistence.Ref
 import java.util.*
 
-class Settings : Entity(UUID.fromString("b6525434-e507-499e-bf50-38ea562876b0")) {
+class Root : Entity(UUID.fromString("b6525434-e507-499e-bf50-38ea562876b1")) {
 	@JsonProperty
 	@Bindable
 	var currentCharacter: Ref<SR5Character>? = null

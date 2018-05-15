@@ -1,6 +1,7 @@
 package me.schill.sr5sheet
 
 import android.databinding.DataBindingUtil
+import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -12,19 +13,18 @@ import kotlinx.android.synthetic.main.activity_character_sheet.*
 import kotlinx.android.synthetic.main.app_bar_character_sheet.*
 import me.schill.sr5sheet.databinding.ActivityCharacterSheetBinding
 import me.schill.sr5sheet.databinding.NavHeaderCharacterSheetBinding
-
+import me.schill.sr5sheet.persistence.Entity
 
 class CharacterSheet :
 		AppCompatActivity(),
 		NavigationView.OnNavigationItemSelectedListener {
 
-	val cm = CharacterManager()
-	val dm = DatabaseManager()
-	var currentNavItem = R.id.nav_character
-	lateinit var binding: ActivityCharacterSheetBinding
-	var databaseFragment: DatabaseFragment? = null
-	var characterFragment: CharacterFragment? = null
+	private val cm = CharacterManager()
+	private val dm = DatabaseManager()
 
+	private var currentNavItem = R.id.nav_character
+	private lateinit var binding: ActivityCharacterSheetBinding
+	private var fragment: EntityFragment<out Entity, out ViewDataBinding>? = null
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -40,10 +40,10 @@ class CharacterSheet :
 		drawer_layout.addDrawerListener(toggle)
 		toggle.syncState()
 
-		val bind = NavHeaderCharacterSheetBinding.inflate(layoutInflater, binding.navView, false)
-		binding.navView.addHeaderView(bind.getRoot())
+		val navHeaderBinding = NavHeaderCharacterSheetBinding.inflate(layoutInflater, binding.navView, false)
+		binding.navView.addHeaderView(navHeaderBinding.root)
 		binding.navView.menu
-		bind.joe = cm.current
+		navHeaderBinding.joe = cm.current
 
 		binding.navView.setNavigationItemSelectedListener(this)
 
@@ -87,8 +87,8 @@ class CharacterSheet :
 			R.id.nav_database -> {
 				val fragmentManager = supportFragmentManager
 				val fragmentTransaction = fragmentManager.beginTransaction()
-				databaseFragment = DatabaseFragment.newInstance(dm.database)
-				fragmentTransaction.replace(R.id.content, databaseFragment)
+				fragment = DatabaseFragment.newInstance(dm.database)
+				fragmentTransaction.replace(R.id.content, fragment)
 				fragmentTransaction.commit()
 				currentNavItem = R.id.nav_database
 				binding.navView.menu.findItem(R.id.nav_character).isEnabled = true
@@ -97,8 +97,8 @@ class CharacterSheet :
 			R.id.nav_character -> {
 				val fragmentManager = supportFragmentManager
 				val fragmentTransaction = fragmentManager.beginTransaction()
-				characterFragment = CharacterFragment.newInstance(cm.current)
-				fragmentTransaction.replace(R.id.content, characterFragment)
+				fragment = CharacterFragment.newInstance(cm.current)
+				fragmentTransaction.replace(R.id.content, fragment)
 				fragmentTransaction.commit()
 				currentNavItem = R.id.nav_character
 				binding.navView.menu.findItem(R.id.nav_database).isEnabled = true
@@ -110,6 +110,9 @@ class CharacterSheet :
 			R.id.nav_send -> {
 
 			}
+		}
+		fragment?.onLoaded {
+			supportActionBar?.title = it.title
 		}
 	}
 }

@@ -13,6 +13,11 @@ import me.schill.sr5sheet.model.SR5Character
 import me.schill.sr5sheet.persistence.Persistence
 
 class CharacterFragment : EntityFragment<SR5Character, FragmentCharacterBinding>(SR5Character::class.java, R.layout.fragment_character) {
+	override val title: String
+		get() {
+			return entity.name
+		}
+
 	override fun onAttach(context: Context) {
 		super.onAttach(context)
 	}
@@ -20,6 +25,7 @@ class CharacterFragment : EntityFragment<SR5Character, FragmentCharacterBinding>
 	override fun onDetach() {
 		super.onDetach()
 	}
+
 
 	companion object {
 		@JvmStatic

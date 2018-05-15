@@ -3,7 +3,7 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	tools:context=".EditDatabase"
-	tools:showIn="@layout/app_bar_edit_database">
+	tools:showIn="@layout/app_bar_character_sheet">
 	<data>
 		<variable name="attr" type="me.schill.sr5sheet.model.Attribute"/>
 	</data>
@@ -14,23 +14,9 @@
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
 			android:layout_gravity="center_vertical"
-			android:background="?attr/colorSecondary"
-			android:gravity="center_vertical"
-			android:text="@{attr.code}"
-			android:textAppearance="@android:style/TextAppearance.Large"
-			android:textColor="?attr/textColorSecondary"
-			tools:text="STR"/>
-
-		<TextView
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:layout_gravity="center_vertical"
-			android:background="?attr/colorSecondary"
+			android:layout_weight="2"
 			android:gravity="center_vertical"
 			android:text="@{attr.name}"
-			android:layout_weight="2"
-			android:textAppearance="@android:style/TextAppearance.Large"
-			android:textColor="?attr/textColorSecondary"
 			tools:text="Stärke"/>
 	</TableRow>
 </layout>

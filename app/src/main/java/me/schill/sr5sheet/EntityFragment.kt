@@ -14,7 +14,20 @@ import java.util.*
 
 abstract class EntityFragment<T : Entity, B : ViewDataBinding>(val entityType: Class<T>, @LayoutRes val layoutId: Int) : Fragment() {
 	lateinit var entity: T
+		private set
 	lateinit var binding: B
+		private set
+	private var loadedCallbacks = ArrayList<(EntityFragment<T, B>) -> Unit>()
+	private var loaded = false
+		set(value) {
+			if (value) {
+				loadedCallbacks.forEach {
+					it(this)
+				}
+				loadedCallbacks.clear()
+			}
+			field = value
+		}
 
 	companion object {
 		const val ARG_ID = "entityId"
@@ -22,7 +35,6 @@ abstract class EntityFragment<T : Entity, B : ViewDataBinding>(val entityType: C
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		var loaded = false
 		arguments?.let {
 			it.getString(ARG_ID)?.let {
 				entity = Persistence.load(UUID.fromString(it), entityType);
@@ -31,6 +43,7 @@ abstract class EntityFragment<T : Entity, B : ViewDataBinding>(val entityType: C
 		}
 		if (!loaded) {
 			entity = entityType.newInstance()
+			loaded = true
 		}
 	}
 
@@ -43,4 +56,13 @@ abstract class EntityFragment<T : Entity, B : ViewDataBinding>(val entityType: C
 		return binding.root
 	}
 
+	abstract val title: String
+
+	fun onLoaded(callback: (EntityFragment<T, B>) -> Unit) {
+		if (loaded) {
+			callback(this)
+		} else {
+			loadedCallbacks.add(callback)
+		}
+	}
 }
