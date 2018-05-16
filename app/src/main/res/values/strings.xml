@@ -9,4 +9,5 @@
 	<string name="add_attribute">Attribut hinzufügen</string>
 	<string name="database_attributes_new_attribute">Neues Attribut</string>
 	<string name="attribute_name">Name</string>
+	<string name="database_fragment_title">Datenbank</string>
 </resources>

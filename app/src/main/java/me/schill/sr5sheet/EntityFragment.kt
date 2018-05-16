@@ -12,7 +12,7 @@ import me.schill.sr5sheet.persistence.Entity
 import me.schill.sr5sheet.persistence.Persistence
 import java.util.*
 
-abstract class EntityFragment<T : Entity, B : ViewDataBinding>(val entityType: Class<T>, @LayoutRes val layoutId: Int) : Fragment() {
+abstract class EntityFragment<T : Entity, B : ViewDataBinding>(val entityType: Class<T>, @LayoutRes val layoutId: Int) : Fragment(), Titled {
 	lateinit var entity: T
 		private set
 	lateinit var binding: B
@@ -56,7 +56,6 @@ abstract class EntityFragment<T : Entity, B : ViewDataBinding>(val entityType: C
 		return binding.root
 	}
 
-	abstract val title: String
 
 	fun onLoaded(callback: (EntityFragment<T, B>) -> Unit) {
 		if (loaded) {

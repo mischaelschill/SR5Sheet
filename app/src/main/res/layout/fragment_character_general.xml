@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".CharacterGeneralFragment">
+
+	<data>
+
+		<variable
+			name="entity"
+			type="me.schill.sr5sheet.model.SR5Character" />
+
+		<variable
+			name="fm"
+			type="me.schill.sr5sheet.CharacterGeneralFragment" />
+	</data>
+
+	<ScrollView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+		<TableLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="176dp">
+
+			<TableRow>
+
+				<TextView
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_gravity="center_vertical"
+					android:layout_weight="2"
+					android:gravity="center_vertical"
+					android:text="Name: " />
+
+				<Button
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_gravity="center_vertical"
+					android:gravity="center_vertical|end"
+					android:onClick="@{fm::changeValueListener}"
+					android:tag="name"
+					android:text="@{entity.name}"
+					tools:text="Mensch" />
+			</TableRow>
+
+			<TableRow>
+
+				<TextView
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_gravity="center_vertical"
+					android:layout_weight="2"
+					android:gravity="center_vertical"
+					android:text="Metatyp: " />
+
+				<Button
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_gravity="center_vertical"
+					android:gravity="center_vertical|end"
+					android:onClick="@{fm::changeValueListener}"
+					android:tag="metatype"
+					android:text="@{entity.metatype}"
+					tools:text="Mensch" />
+			</TableRow>
+
+			<TableRow>
+
+				<TextView
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_gravity="center_vertical"
+					android:layout_weight="2"
+					android:gravity="center_vertical"
+					android:text="Ethnie: " />
+
+				<Button
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_gravity="center_vertical"
+					android:gravity="center_vertical|end"
+					android:onClick="@{fm::changeValueListener}"
+					android:tag="ethnicity"
+					android:text="@{entity.ethnicity}" />
+			</TableRow>
+
+			<TableRow>
+
+				<TextView
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_gravity="center_vertical"
+					android:layout_weight="2"
+					android:gravity="center_vertical"
+					android:text="Alter: " />
+
+				<Button
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_gravity="center_vertical"
+					android:gravity="center_vertical|end"
+					android:onClick="@{fm::editIntegerAttribute}"
+					android:tag="age"
+					android:text="@{String.valueOf(entity.age)}" />
+			</TableRow>
+
+			<TableRow>
+
+				<TextView
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_gravity="center_vertical"
+					android:layout_weight="2"
+					android:gravity="center_vertical"
+					android:text="Geschlecht: " />
+
+				<Button
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_gravity="center_vertical"
+					android:gravity="center_vertical|end"
+					android:onClick="@{fm::changeValueListener}"
+					android:tag="sex"
+					android:text="@{entity.sex}" />
+			</TableRow>
+
+			<TableRow>
+
+				<TextView
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_gravity="center_vertical"
+					android:layout_weight="2"
+					android:gravity="center_vertical"
+					android:text="Grösse: " />
+
+				<Button
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_gravity="center_vertical"
+					android:gravity="center_vertical|end"
+					android:onClick="@{fm::editIntegerAttribute}"
+					android:tag="height"
+					android:text="@{String.valueOf(entity.height)}" />
+			</TableRow>
+
+			<TableRow>
+
+				<TextView
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_gravity="center_vertical"
+					android:layout_weight="2"
+					android:gravity="center_vertical"
+					android:text="Gewicht: " />
+
+				<Button
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_gravity="center_vertical"
+					android:gravity="center_vertical|end"
+					android:onClick="@{fm::editIntegerAttribute}"
+					android:tag="weight"
+					android:text="@{String.valueOf(entity.weight)}" />
+			</TableRow>
+
+			<TableRow>
+
+				<TextView
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_gravity="center_vertical"
+					android:layout_weight="2"
+					android:gravity="center_vertical"
+					android:text="Strassenruf: " />
+
+				<Button
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_gravity="center_vertical"
+					android:gravity="center_vertical|end"
+					android:onClick="@{fm::editIntegerAttribute}"
+					android:tag="streetCred"
+					android:text="@{String.valueOf(entity.streetCred)}" />
+			</TableRow>
+
+			<TableRow>
+
+				<TextView
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_gravity="center_vertical"
+					android:layout_weight="2"
+					android:gravity="center_vertical"
+					android:text="Schlechter Ruf: " />
+
+				<Button
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_gravity="center_vertical"
+					android:gravity="center_vertical|end"
+					android:onClick="@{fm::editIntegerAttribute}"
+					android:tag="notoriety"
+					android:text="@{String.valueOf(entity.notoriety)}" />
+			</TableRow>
+
+			<TableRow>
+
+				<TextView
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_gravity="center_vertical"
+					android:layout_weight="2"
+					android:gravity="center_vertical"
+					android:text="Prominenz: " />
+
+				<Button
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_gravity="center_vertical"
+					android:gravity="center_vertical|end"
+					android:onClick="@{fm::editIntegerAttribute}"
+					android:tag="publicAwareness"
+					android:text="@{String.valueOf(entity.publicAwareness)}" />
+			</TableRow>
+
+			<TableRow>
+
+				<TextView
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_gravity="center_vertical"
+					android:layout_weight="2"
+					android:gravity="center_vertical"
+					android:text="Karma: " />
+
+				<Button
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_gravity="center_vertical"
+					android:gravity="center_vertical|end"
+					android:onClick="@{fm::editIntegerAttribute}"
+					android:tag="karma"
+					android:text="@{String.valueOf(entity.karma)}" />
+			</TableRow>
+
+			<TableRow>
+
+				<TextView
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_gravity="center_vertical"
+					android:layout_weight="2"
+					android:gravity="center_vertical"
+					android:text="Gesamtkarma: " />
+
+				<Button
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_gravity="center_vertical"
+					android:gravity="center_vertical|end"
+					android:onClick="@{fm::editIntegerAttribute}"
+					android:tag="totalKarma"
+					android:text="@{String.valueOf(entity.totalKarma)}" />
+			</TableRow>
+		</TableLayout>
+	</ScrollView>
+</layout>
