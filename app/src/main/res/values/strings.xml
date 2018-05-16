@@ -6,8 +6,12 @@
 	<string name="nav_header_title_database">Datenbank</string>
 	<string name="action_settings">Settings</string>
 	<string name="database_attributes_fragment_title">Datenbank: Attribute</string>
-	<string name="add_attribute">Attribut hinzufügen</string>
+	<string name="add_attribute">Neues Attribut</string>
 	<string name="database_attributes_new_attribute">Neues Attribut</string>
 	<string name="attribute_name">Name</string>
 	<string name="database_fragment_title">Datenbank</string>
+	<string name="database_skills_fragment_title">Fertigkeiten</string>
+	<string name="database_skills_new_skill">Neue Fertigkeit</string>
+	<string name="skill_name">Name</string>
+	<string name="add_skill">Neue Fertigkeit</string>
 </resources>

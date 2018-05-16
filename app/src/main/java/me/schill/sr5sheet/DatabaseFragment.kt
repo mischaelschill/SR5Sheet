@@ -24,11 +24,26 @@ class DatabaseFragment :
 				0 -> {
 					return DatabaseAttributesFragment.newInstance(entity)
 				}
+				1 -> {
+					return DatabaseSkillsFragment.newInstance(entity)
+				}
 			}
 			throw IllegalArgumentException("position: " + position)
 		}
 
-		override fun getCount() = 1
+		override fun getCount() = 2
+
+		override fun getPageTitle(position: Int): CharSequence? {
+			when (position) {
+				0 -> {
+					return "Attribute"
+				}
+				1 -> {
+					return "Fertigkeiten"
+				}
+			}
+			throw IllegalArgumentException("position: " + position)
+		}
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

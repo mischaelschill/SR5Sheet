@@ -10,54 +10,54 @@ import android.util.Log
 import android.view.*
 import android.widget.EditText
 import android.widget.LinearLayout
-import me.schill.sr5sheet.databinding.DbAttributeRowBinding
-import me.schill.sr5sheet.databinding.FragmentDatabaseAttributesBinding
-import me.schill.sr5sheet.model.AttributeType
+import me.schill.sr5sheet.databinding.DbSkillRowBinding
+import me.schill.sr5sheet.databinding.FragmentDatabaseSkillsBinding
 import me.schill.sr5sheet.model.Database
+import me.schill.sr5sheet.model.SkillType
 import me.schill.sr5sheet.persistence.Persistence
 
-class DatabaseAttributesFragment :
-		EntityFragment<Database, FragmentDatabaseAttributesBinding>(Database::class.java, R.layout.fragment_database_attributes) {
+class DatabaseSkillsFragment :
+		EntityFragment<Database, FragmentDatabaseSkillsBinding>(Database::class.java, R.layout.fragment_database_skills) {
 	override val title: String
 		get() {
-			return getString(R.string.database_attributes_fragment_title)
+			return getString(R.string.database_skills_fragment_title)
 		}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		val result = super.onCreateView(inflater, container, savedInstanceState)
-		entity.attributes.forEach(::addAttributeRow)
-		entity.attributes.addOnListChangedCallback(object : ObservableList.OnListChangedCallback<ObservableList<AttributeType>>() {
-			override fun onChanged(sender: ObservableList<AttributeType>?) {
+		entity.skills.forEach(::addSkillRow)
+		entity.skills.addOnListChangedCallback(object : ObservableList.OnListChangedCallback<ObservableList<SkillType>>() {
+			override fun onChanged(sender: ObservableList<SkillType>?) {
 				binding.table.removeAllViewsInLayout()
-				entity.attributes.forEach({
-					addAttributeRow(it)
+				entity.skills.forEach({
+					addSkillRow(it)
 				})
 			}
 
-			override fun onItemRangeRemoved(sender: ObservableList<AttributeType>?, positionStart: Int, itemCount: Int) {
+			override fun onItemRangeRemoved(sender: ObservableList<SkillType>?, positionStart: Int, itemCount: Int) {
 				binding.table.removeViewsInLayout(positionStart, itemCount)
 			}
 
-			override fun onItemRangeMoved(sender: ObservableList<AttributeType>?, fromPosition: Int, toPosition: Int, itemCount: Int) {
+			override fun onItemRangeMoved(sender: ObservableList<SkillType>?, fromPosition: Int, toPosition: Int, itemCount: Int) {
 				onChanged(sender)
 			}
 
-			override fun onItemRangeInserted(sender: ObservableList<AttributeType>?, positionStart: Int, itemCount: Int) {
+			override fun onItemRangeInserted(sender: ObservableList<SkillType>?, positionStart: Int, itemCount: Int) {
 				var index = positionStart
 				sender?.subList(positionStart, positionStart + itemCount)?.forEach {
-					val attrBind = DbAttributeRowBinding.inflate(layoutInflater, binding.table, false)
-					attrBind.attr = it
+					val attrBind = DbSkillRowBinding.inflate(layoutInflater, binding.table, false)
+					attrBind.row = it
 					binding.table.addView(attrBind.root, index)
 					index++
 				}
 			}
 
-			override fun onItemRangeChanged(sender: ObservableList<AttributeType>?, positionStart: Int, itemCount: Int) {
+			override fun onItemRangeChanged(sender: ObservableList<SkillType>?, positionStart: Int, itemCount: Int) {
 				var index = positionStart
 				binding.table.removeViewsInLayout(positionStart, itemCount)
 				sender?.subList(positionStart, positionStart + itemCount)?.forEach {
-					val attrBind = DbAttributeRowBinding.inflate(layoutInflater, binding.table, false)
-					attrBind.attr = it
+					val attrBind = DbSkillRowBinding.inflate(layoutInflater, binding.table, false)
+					attrBind.row = it
 					binding.table.addView(attrBind.root, index)
 					index++
 				}
@@ -66,10 +66,10 @@ class DatabaseAttributesFragment :
 		return result;
 	}
 
-	private fun addAttributeRow(attribute: AttributeType) {
-		val attrBind = DbAttributeRowBinding.inflate(layoutInflater, binding.table, true)
-		attrBind.attr = attribute
-		Log.i(this.javaClass.simpleName, "added attribute " + attribute.name)
+	private fun addSkillRow(skill: SkillType) {
+		val attrBind = DbSkillRowBinding.inflate(layoutInflater, binding.table, true)
+		attrBind.row = skill
+		Log.i(this.javaClass.simpleName, "added skill " + skill.name)
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,12 +78,12 @@ class DatabaseAttributesFragment :
 	}
 
 	override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-		inflater?.inflate(R.menu.database_attributes_fragment, menu)
+		inflater?.inflate(R.menu.database_skills_fragment, menu)
 	}
 
 	override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 		if (item?.itemId == R.id.action_add_attribute) {
-			addAttribute()
+			addSkill()
 			return true
 		}
 		return false
@@ -92,37 +92,37 @@ class DatabaseAttributesFragment :
 	companion object {
 		@JvmStatic
 		fun newInstance(database: Database) =
-				DatabaseAttributesFragment().apply {
+				DatabaseSkillsFragment().apply {
 					arguments = Bundle().apply {
 						putString(ARG_ID, database.id.toString())
 					}
 				}
 	}
 
-	private fun addAttribute() {
+	private fun addSkill() {
 		val builder = AlertDialog.Builder(requireContext());
-		builder.setTitle(getString(R.string.database_attributes_new_attribute));
+		builder.setTitle(getString(R.string.database_skills_new_skill));
 
 		val layout = LinearLayout(requireContext())
 		layout.orientation = LinearLayout.VERTICAL
 
 		val name = EditText(requireContext());
 		name.setInputType(InputType::TYPE_CLASS_TEXT.get())
-		name.hint = getString(R.string.attribute_name)
+		name.hint = getString(R.string.skill_name)
 		layout.addView(name);
 
-		val attr = AttributeType()
+		val skill = SkillType()
 
 		var ok = false
 		val watcher = object : TextWatcher {
 			override fun afterTextChanged(s: Editable?) {
-				attr.name = name.text.toString().trim()
+				skill.name = name.text.toString().trim()
 
 				ok = true
-				entity.attributes.forEach {
-					if (attr.name.isEmpty()) {
+				entity.skills.forEach {
+					if (skill.name.isEmpty()) {
 						ok = false
-					} else if (attr.name.toLowerCase() == it.name.toLowerCase()) {
+					} else if (skill.name.toLowerCase() == it.name.toLowerCase()) {
 						ok = false
 					}
 				}
@@ -142,8 +142,8 @@ class DatabaseAttributesFragment :
 		// Set up the buttons
 		builder.setPositiveButton("OK") { dialog, _ ->
 			if (ok) {
-				entity.attributes.add(attr)
-				Persistence.save(attr)
+				entity.skills.add(skill)
+				Persistence.save(skill)
 				Persistence.save(entity)
 			}
 		}

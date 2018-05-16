@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".DatabaseSkillsFragment"
+        tools:showIn="@layout/fragment_database_skills">
+
+	<data>
+
+		<variable
+			name="row"
+			type="me.schill.sr5sheet.model.SkillType" />
+	</data>
+
+	<TableRow
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+		<TextView
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:layout_gravity="center_vertical"
+			android:layout_weight="2"
+			android:gravity="center_vertical"
+			android:text="@{row.name}"
+			tools:text="Exotische Nahkampfwaffe: Monofilamentpeitsche" />
+	</TableRow>
+</layout>

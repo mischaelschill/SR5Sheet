@@ -4,7 +4,6 @@ import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.annotation.LayoutRes
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,7 @@ import me.schill.sr5sheet.persistence.Entity
 import me.schill.sr5sheet.persistence.Persistence
 import java.util.*
 
-abstract class EntityFragment<T : Entity, B : ViewDataBinding>(val entityType: Class<T>, @LayoutRes val layoutId: Int) : Fragment(), Titled {
+abstract class EntityFragment<T : Entity, B : ViewDataBinding>(val entityType: Class<T>, @LayoutRes val layoutId: Int) : TitledFragment() {
 	lateinit var entity: T
 		private set
 	lateinit var binding: B
