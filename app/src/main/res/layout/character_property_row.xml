@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	tools:context=".CharacterPropertiesFragment"
+	tools:showIn="@layout/fragment_character_properties">
+
+	<data>
+
+		<variable
+			name="fm"
+			type="me.schill.sr5sheet.CharacterPropertiesFragment" />
+
+		<variable
+			name="prop"
+			type="me.schill.sr5sheet.model.Property" />
+	</data>
+
+	<TableRow
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+		<TextView
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:layout_gravity="start"
+			android:layout_weight="2"
+			android:gravity="start|center_vertical"
+			android:longClickable="true"
+			android:onLongClick="@{fm.editRow(prop)}"
+			android:text="@{prop.name}"
+			android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+			tools:text="Stärke" />
+
+		<TextView
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:layout_gravity="end"
+			android:gravity="center"
+			android:longClickable="true"
+			android:onLongClick="@{fm.editRow(prop)}"
+			android:text="@{prop.valueDisplayString}"
+			android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+			tools:text="3" />
+	</TableRow>
+</layout>

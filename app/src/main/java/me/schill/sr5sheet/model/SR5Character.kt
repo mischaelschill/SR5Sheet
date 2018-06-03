@@ -1,9 +1,13 @@
 package me.schill.sr5sheet.model
 
 import android.databinding.Bindable
+import android.databinding.ObservableArrayList
 import com.fasterxml.jackson.annotation.JsonProperty
 import me.schill.sr5sheet.BR
 import me.schill.sr5sheet.persistence.Entity
+import me.schill.sr5sheet.persistence.Persistence
+import me.schill.sr5sheet.persistence.Ref
+import java.util.*
 
 class SR5Character : Entity() {
 	@Bindable
@@ -12,6 +16,21 @@ class SR5Character : Entity() {
 		set(value) {
 			field = value
 			notifyPropertyChanged(BR.name)
+		}
+
+	@JsonProperty
+	val properties = ObservableArrayList<Ref<Property>>()
+		get() {
+			val properties = HashSet<UUID>()
+			field.forEach { properties.add(it.get().type.id) }
+			BuiltinDatabase.Properties.all
+					.filterKeys { !properties.contains(it) }
+					.forEach({ _, type ->
+						Persistence.save(type.createInstance())?.let {
+							field.add(it)
+						}
+					})
+			return field
 		}
 
 	@Bindable

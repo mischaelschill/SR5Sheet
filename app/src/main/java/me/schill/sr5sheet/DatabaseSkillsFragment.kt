@@ -15,6 +15,7 @@ import me.schill.sr5sheet.databinding.FragmentDatabaseSkillsBinding
 import me.schill.sr5sheet.model.Database
 import me.schill.sr5sheet.model.SkillType
 import me.schill.sr5sheet.persistence.Persistence
+import me.schill.sr5sheet.persistence.Ref
 
 class DatabaseSkillsFragment :
 		EntityFragment<Database, FragmentDatabaseSkillsBinding>(Database::class.java, R.layout.fragment_database_skills) {
@@ -25,12 +26,12 @@ class DatabaseSkillsFragment :
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		val result = super.onCreateView(inflater, container, savedInstanceState)
-		entity.skills.forEach(::addSkillRow)
+		entity.skills.forEach({ addSkillRow(it.get()) })
 		entity.skills.addOnListChangedCallback(object : ObservableList.OnListChangedCallback<ObservableList<SkillType>>() {
 			override fun onChanged(sender: ObservableList<SkillType>?) {
 				binding.table.removeAllViewsInLayout()
 				entity.skills.forEach({
-					addSkillRow(it)
+					addSkillRow(it.get())
 				})
 			}
 
@@ -122,7 +123,7 @@ class DatabaseSkillsFragment :
 				entity.skills.forEach {
 					if (skill.name.isEmpty()) {
 						ok = false
-					} else if (skill.name.toLowerCase() == it.name.toLowerCase()) {
+					} else if (skill.name.toLowerCase() == it.get().name.toLowerCase()) {
 						ok = false
 					}
 				}
@@ -142,7 +143,7 @@ class DatabaseSkillsFragment :
 		// Set up the buttons
 		builder.setPositiveButton("OK") { dialog, _ ->
 			if (ok) {
-				entity.skills.add(skill)
+				entity.skills.add(Ref(skill))
 				Persistence.save(skill)
 				Persistence.save(entity)
 			}

@@ -4,6 +4,7 @@ import android.databinding.Observable
 import android.util.Log
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import me.schill.sr5sheet.model.BuiltinDatabase
 import java.io.File
 import java.lang.Exception
 import java.util.*
@@ -34,6 +35,12 @@ object Persistence : Observable.OnPropertyChangedCallback() {
 
 	@Suppress("UNCHECKED_CAST")
 	fun <T : Entity> load(id: UUID, cl: Class<T>): T {
+		BuiltinDatabase.all.get(id)?.let {
+			if (cl.isInstance(it)) {
+				return it as T
+			}
+		}
+
 		Log.i(loggerUnit, "Loading object: " + id.toString() + " (" + cl.name + ")")
 		try {
 			synchronized(this, {
@@ -64,7 +71,13 @@ object Persistence : Observable.OnPropertyChangedCallback() {
 		return entity
 	}
 
-	fun save(entity: Entity): Boolean {
+	fun <T : Entity> save(entity: T): Ref<T>? {
+		BuiltinDatabase.all.get(entity.id)?.let {
+			if (it == entity) {
+				return Ref(entity)
+			}
+		}
+
 		Log.i(loggerUnit, "Saving object: " + entity.id.toString() + " (" + entity.className + ")")
 		try {
 			synchronized(this, {
@@ -73,10 +86,10 @@ object Persistence : Observable.OnPropertyChangedCallback() {
 				}
 				mapper.writeValue(File(filesDir, entity.id.toString() + ".json"), entity)
 			})
-			return true
+			return Ref(entity)
 		} catch (ex: Exception) {
 			Log.e(loggerUnit, "Error while trying to save: " + entity.id.toString() + " (" + entity.className + ")", ex)
 		}
-		return false
+		return null
 	}
 }
