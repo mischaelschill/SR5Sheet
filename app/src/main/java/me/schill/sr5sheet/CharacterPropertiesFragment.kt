@@ -2,36 +2,34 @@ package me.schill.sr5sheet
 
 import android.databinding.ObservableList
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
-import android.text.Editable
 import android.text.InputType
-import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.widget.EditText
 import android.widget.LinearLayout
-import me.schill.sr5sheet.databinding.DbAttributeRowBinding
-import me.schill.sr5sheet.databinding.FragmentDatabaseAttributesBinding
+import me.schill.sr5sheet.databinding.CharacterPropertyRowBinding
+import me.schill.sr5sheet.databinding.FragmentCharacterPropertiesBinding
 import me.schill.sr5sheet.model.AttributeType
-import me.schill.sr5sheet.model.Database
-import me.schill.sr5sheet.persistence.Persistence
-import me.schill.sr5sheet.persistence.Ref
+import me.schill.sr5sheet.model.Property
+import me.schill.sr5sheet.model.SR5Character
 
-class DatabaseAttributesFragment :
-		EntityFragment<Database, FragmentDatabaseAttributesBinding>(Database::class.java, R.layout.fragment_database_attributes) {
+class CharacterPropertiesFragment :
+		EntityFragment<SR5Character, FragmentCharacterPropertiesBinding>(SR5Character::class.java, R.layout.fragment_character_properties) {
 	override val title: String
 		get() {
-			return getString(R.string.database_attributes_fragment_title)
+			return "Charaktereigenschaften"
 		}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		val result = super.onCreateView(inflater, container, savedInstanceState)
-		entity.attributes.forEach({ addAttributeRow(it.get()) })
-		entity.attributes.addOnListChangedCallback(object : ObservableList.OnListChangedCallback<ObservableList<AttributeType>>() {
+		entity.properties.forEach({ addRow(it.get()) })
+		entity.properties.addOnListChangedCallback(object : ObservableList.OnListChangedCallback<ObservableList<AttributeType>>() {
 			override fun onChanged(sender: ObservableList<AttributeType>?) {
 				binding.table.removeAllViewsInLayout()
-				entity.attributes.forEach({
-					addAttributeRow(it.get())
+				entity.properties.forEach({
+					addRow(it.get())
 				})
 			}
 
@@ -44,6 +42,8 @@ class DatabaseAttributesFragment :
 			}
 
 			override fun onItemRangeInserted(sender: ObservableList<AttributeType>?, positionStart: Int, itemCount: Int) {
+				onChanged(sender)
+				/*
 				var index = positionStart
 				sender?.subList(positionStart, positionStart + itemCount)?.forEach {
 					val attrBind = DbAttributeRowBinding.inflate(layoutInflater, binding.table, false)
@@ -51,9 +51,12 @@ class DatabaseAttributesFragment :
 					binding.table.addView(attrBind.root, index)
 					index++
 				}
+				*/
 			}
 
 			override fun onItemRangeChanged(sender: ObservableList<AttributeType>?, positionStart: Int, itemCount: Int) {
+				onChanged(sender)
+				/*
 				var index = positionStart
 				binding.table.removeViewsInLayout(positionStart, itemCount)
 				sender?.subList(positionStart, positionStart + itemCount)?.forEach {
@@ -62,15 +65,21 @@ class DatabaseAttributesFragment :
 					binding.table.addView(attrBind.root, index)
 					index++
 				}
+				*/
 			}
 		})
 		return result;
 	}
 
-	private fun addAttributeRow(attribute: AttributeType) {
-		val attrBind = DbAttributeRowBinding.inflate(layoutInflater, binding.table, true)
-		attrBind.attr = attribute
-		Log.i(this.javaClass.simpleName, "added attribute " + attribute.name)
+	fun editRow(property: Property): View.OnLongClickListener = View.OnLongClickListener {
+		Snackbar.make(it, "Eigenschaft: " + property.name, 2).show();
+		true
+	}
+
+	private fun addRow(property: Property) {
+		val bind = CharacterPropertyRowBinding.inflate(layoutInflater, binding.table, true)
+		bind.prop = property
+		Log.i(this.javaClass.simpleName, "added property " + property.name)
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,12 +88,12 @@ class DatabaseAttributesFragment :
 	}
 
 	override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-		inflater?.inflate(R.menu.database_attributes_fragment, menu)
+		inflater?.inflate(R.menu.character_properties_fragment, menu)
 	}
 
 	override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-		if (item?.itemId == R.id.action_add_attribute) {
-			addAttribute()
+		if (item?.itemId == R.id.action_add_property) {
+			addItem()
 			return true
 		}
 		return false
@@ -92,17 +101,18 @@ class DatabaseAttributesFragment :
 
 	companion object {
 		@JvmStatic
-		fun newInstance(database: Database) =
-				DatabaseAttributesFragment().apply {
+		fun newInstance(character: SR5Character) =
+				CharacterPropertiesFragment().apply {
 					arguments = Bundle().apply {
-						putString(ARG_ID, database.id.toString())
+						putString(ARG_ID, character.id.toString())
 					}
 				}
 	}
 
-	private fun addAttribute() {
+
+	private fun addItem() {
 		val builder = AlertDialog.Builder(requireContext());
-		builder.setTitle(getString(R.string.database_attributes_new_attribute));
+		builder.setTitle("Eigenschaft hinzufügen");
 
 		val layout = LinearLayout(requireContext())
 		layout.orientation = LinearLayout.VERTICAL
@@ -112,6 +122,8 @@ class DatabaseAttributesFragment :
 		name.hint = getString(R.string.attribute_name)
 		layout.addView(name);
 
+		throw NotImplementedError()
+		/*
 		val attr = AttributeType()
 
 		var ok = false
@@ -123,7 +135,7 @@ class DatabaseAttributesFragment :
 				entity.attributes.forEach {
 					if (attr.name.isEmpty()) {
 						ok = false
-					} else if (attr.name.toLowerCase() == it.get().name.toLowerCase()) {
+					} else if (attr.name.toLowerCase() == it.name.toLowerCase()) {
 						ok = false
 					}
 				}
@@ -143,7 +155,7 @@ class DatabaseAttributesFragment :
 		// Set up the buttons
 		builder.setPositiveButton("OK") { dialog, _ ->
 			if (ok) {
-				entity.attributes.add(Ref(attr))
+				entity.attributes.add(attr)
 				Persistence.save(attr)
 				Persistence.save(entity)
 			}
@@ -151,5 +163,6 @@ class DatabaseAttributesFragment :
 		builder.setNegativeButton("Cancel") { dialog, _ -> dialog?.cancel(); }
 
 		builder.show();
+		*/
 	}
 }

@@ -22,11 +22,26 @@ class CharacterFragment : EntityFragment<SR5Character, FragmentCharacterBinding>
 				0 -> {
 					return CharacterGeneralFragment.newInstance(entity)
 				}
+				1 -> {
+					return CharacterPropertiesFragment.newInstance(entity)
+				}
 			}
 			throw IllegalArgumentException("position: " + position)
 		}
 
-		override fun getCount() = 1
+		override fun getCount() = 2
+
+		override fun getPageTitle(position: Int): CharSequence? {
+			when (position) {
+				0 -> {
+					return "Generell"
+				}
+				1 -> {
+					return "Eigenschaften"
+				}
+			}
+			throw IllegalArgumentException("position: " + position)
+		}
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

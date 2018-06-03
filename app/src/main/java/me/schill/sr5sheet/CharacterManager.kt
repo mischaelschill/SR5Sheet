@@ -15,12 +15,11 @@ class CharacterManager {
 	    Persistence.init(filesDir)
 	    val rootRef = Ref(Root())
 	    root = rootRef.get()
-	    val loadedCurrent = root.currentCharacter?.get()
+	    val loadedCurrent = root.characters.firstOrNull()?.get()
 	    if (loadedCurrent != null) {
 		    current = loadedCurrent
 	    } else {
 		    current = SR5Character()
-		    root.currentCharacter = Ref(current)
 		    root.characters.add(Ref(current))
 	    }
     }

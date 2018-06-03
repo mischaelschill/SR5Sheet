@@ -14,4 +14,6 @@
 	<string name="database_skills_new_skill">Neue Fertigkeit</string>
 	<string name="skill_name">Name</string>
 	<string name="add_skill">Neue Fertigkeit</string>
+	<string name="add_property">Eigenschaft hinzufügen</string>
+	<string name="builtin.properties.karma">Karma</string>
 </resources>

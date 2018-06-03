@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	tools:context=".CharacterPropertiesFragment"
+	tools:showIn="@layout/fragment_character">
+
+	<data>
+
+		<variable
+			name="entity"
+			type="me.schill.sr5sheet.model.SR5Character" />
+
+		<variable
+			name="fm"
+			type="me.schill.sr5sheet.CharacterPropertiesFragment" />
+	</data>
+
+	<ScrollView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+		<TableLayout
+			android:id="@+id/table"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" />
+	</ScrollView>
+</layout>
