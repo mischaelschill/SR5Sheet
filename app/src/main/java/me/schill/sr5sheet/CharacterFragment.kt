@@ -1,5 +1,6 @@
 package me.schill.sr5sheet
 
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -10,7 +11,9 @@ import android.view.ViewGroup
 import me.schill.sr5sheet.databinding.FragmentCharacterBinding
 import me.schill.sr5sheet.model.SR5Character
 
-class CharacterFragment : EntityFragment<SR5Character, FragmentCharacterBinding>(SR5Character::class.java, R.layout.fragment_character) {
+class CharacterFragment : EntityFragment<SR5Character>(SR5Character::class.java) {
+	lateinit var binding: FragmentCharacterBinding
+
 	override val title: String
 		get() {
 			return entity.name
@@ -20,23 +23,17 @@ class CharacterFragment : EntityFragment<SR5Character, FragmentCharacterBinding>
 		override fun getItem(position: Int): Fragment {
 			when (position) {
 				0 -> {
-					return CharacterGeneralFragment.newInstance(entity)
-				}
-				1 -> {
 					return CharacterPropertiesFragment.newInstance(entity)
 				}
 			}
 			throw IllegalArgumentException("position: " + position)
 		}
 
-		override fun getCount() = 2
+		override fun getCount() = 1
 
 		override fun getPageTitle(position: Int): CharSequence? {
 			when (position) {
 				0 -> {
-					return "Generell"
-				}
-				1 -> {
 					return "Eigenschaften"
 				}
 			}
@@ -45,9 +42,12 @@ class CharacterFragment : EntityFragment<SR5Character, FragmentCharacterBinding>
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		val result = super.onCreateView(inflater, container, savedInstanceState)
+		binding = DataBindingUtil.inflate(inflater, R.layout.fragment_character, container, false)
+		binding.setVariable(BR.entity, entity)
+		binding.setVariable(BR.fm, this)
+
 		binding.pager.adapter = PagerAdapter(childFragmentManager, entity)
-		return result
+		return binding.root
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {

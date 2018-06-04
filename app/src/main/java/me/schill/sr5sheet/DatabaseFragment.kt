@@ -1,5 +1,6 @@
 package me.schill.sr5sheet
 
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -11,7 +12,8 @@ import me.schill.sr5sheet.databinding.FragmentDatabaseBinding
 import me.schill.sr5sheet.model.Database
 
 class DatabaseFragment :
-		EntityFragment<Database, FragmentDatabaseBinding>(Database::class.java, R.layout.fragment_database) {
+		EntityFragment<Database>(Database::class.java) {
+	lateinit var binding: FragmentDatabaseBinding
 
 	override val title: String
 		get() {
@@ -47,9 +49,11 @@ class DatabaseFragment :
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		val result = super.onCreateView(inflater, container, savedInstanceState)
+		binding = DataBindingUtil.inflate(inflater, R.layout.fragment_database, container, false)
+		binding.setVariable(BR.entity, entity)
+		binding.setVariable(BR.fm, this)
 		binding.pager.adapter = PagerAdapter(childFragmentManager, entity)
-		return result
+		return binding.root
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {

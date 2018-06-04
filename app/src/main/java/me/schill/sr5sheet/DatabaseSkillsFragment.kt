@@ -1,5 +1,6 @@
 package me.schill.sr5sheet
 
+import android.databinding.DataBindingUtil
 import android.databinding.ObservableList
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
@@ -18,14 +19,18 @@ import me.schill.sr5sheet.persistence.Persistence
 import me.schill.sr5sheet.persistence.Ref
 
 class DatabaseSkillsFragment :
-		EntityFragment<Database, FragmentDatabaseSkillsBinding>(Database::class.java, R.layout.fragment_database_skills) {
+		EntityFragment<Database>(Database::class.java) {
+	lateinit var binding: FragmentDatabaseSkillsBinding
 	override val title: String
 		get() {
 			return getString(R.string.database_skills_fragment_title)
 		}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		val result = super.onCreateView(inflater, container, savedInstanceState)
+		binding = DataBindingUtil.inflate(inflater, R.layout.fragment_database_skills, container, false)
+		binding.setVariable(BR.entity, entity)
+		binding.setVariable(BR.fm, this)
+
 		entity.skills.forEach({ addSkillRow(it.get()) })
 		entity.skills.addOnListChangedCallback(object : ObservableList.OnListChangedCallback<ObservableList<SkillType>>() {
 			override fun onChanged(sender: ObservableList<SkillType>?) {
@@ -64,7 +69,7 @@ class DatabaseSkillsFragment :
 				}
 			}
 		})
-		return result;
+		return binding.root
 	}
 
 	private fun addSkillRow(skill: SkillType) {

@@ -1,6 +1,7 @@
 package me.schill.sr5sheet
 
-import android.databinding.ObservableList
+import android.databinding.DataBindingUtil
+import android.databinding.Observable
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
@@ -11,64 +12,36 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import me.schill.sr5sheet.databinding.CharacterPropertyRowBinding
 import me.schill.sr5sheet.databinding.FragmentCharacterPropertiesBinding
-import me.schill.sr5sheet.model.AttributeType
 import me.schill.sr5sheet.model.Property
 import me.schill.sr5sheet.model.SR5Character
 
 class CharacterPropertiesFragment :
-		EntityFragment<SR5Character, FragmentCharacterPropertiesBinding>(SR5Character::class.java, R.layout.fragment_character_properties) {
+		EntityFragment<SR5Character>(SR5Character::class.java) {
+	lateinit var binding: FragmentCharacterPropertiesBinding
+
 	override val title: String
 		get() {
 			return "Charaktereigenschaften"
 		}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		val result = super.onCreateView(inflater, container, savedInstanceState)
-		entity.properties.forEach({ addRow(it.get()) })
-		entity.properties.addOnListChangedCallback(object : ObservableList.OnListChangedCallback<ObservableList<AttributeType>>() {
-			override fun onChanged(sender: ObservableList<AttributeType>?) {
-				binding.table.removeAllViewsInLayout()
-				entity.properties.forEach({
-					addRow(it.get())
-				})
-			}
+		binding = DataBindingUtil.inflate(inflater, R.layout.fragment_character_properties, container, false)
+		binding.setVariable(BR.entity, entity)
+		binding.setVariable(BR.fm, this)
 
-			override fun onItemRangeRemoved(sender: ObservableList<AttributeType>?, positionStart: Int, itemCount: Int) {
-				binding.table.removeViewsInLayout(positionStart, itemCount)
-			}
-
-			override fun onItemRangeMoved(sender: ObservableList<AttributeType>?, fromPosition: Int, toPosition: Int, itemCount: Int) {
-				onChanged(sender)
-			}
-
-			override fun onItemRangeInserted(sender: ObservableList<AttributeType>?, positionStart: Int, itemCount: Int) {
-				onChanged(sender)
-				/*
-				var index = positionStart
-				sender?.subList(positionStart, positionStart + itemCount)?.forEach {
-					val attrBind = DbAttributeRowBinding.inflate(layoutInflater, binding.table, false)
-					attrBind.attr = it
-					binding.table.addView(attrBind.root, index)
-					index++
+		entity.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
+			override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+				if (propertyId == BR.properties) {
+					binding.table.removeAllViewsInLayout()
+					entity.properties.forEach({
+						addRow(it.get())
+					})
 				}
-				*/
-			}
-
-			override fun onItemRangeChanged(sender: ObservableList<AttributeType>?, positionStart: Int, itemCount: Int) {
-				onChanged(sender)
-				/*
-				var index = positionStart
-				binding.table.removeViewsInLayout(positionStart, itemCount)
-				sender?.subList(positionStart, positionStart + itemCount)?.forEach {
-					val attrBind = DbAttributeRowBinding.inflate(layoutInflater, binding.table, false)
-					attrBind.attr = it
-					binding.table.addView(attrBind.root, index)
-					index++
-				}
-				*/
 			}
 		})
-		return result;
+
+		entity.properties.forEach({ addRow(it.get()) })
+		return binding.root;
 	}
 
 	fun editRow(property: Property): View.OnLongClickListener = View.OnLongClickListener {

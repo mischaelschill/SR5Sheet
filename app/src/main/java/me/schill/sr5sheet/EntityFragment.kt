@@ -1,22 +1,14 @@
 package me.schill.sr5sheet
 
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
 import android.os.Bundle
-import android.support.annotation.LayoutRes
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import me.schill.sr5sheet.persistence.Entity
 import me.schill.sr5sheet.persistence.Persistence
 import java.util.*
 
-abstract class EntityFragment<T : Entity, B : ViewDataBinding>(val entityType: Class<T>, @LayoutRes val layoutId: Int) : TitledFragment() {
+abstract class EntityFragment<T : Entity>(val entityType: Class<T>) : TitledFragment() {
 	lateinit var entity: T
 		private set
-	lateinit var binding: B
-		private set
-	private var loadedCallbacks = ArrayList<(EntityFragment<T, B>) -> Unit>()
+	private var loadedCallbacks = ArrayList<(EntityFragment<T>) -> Unit>()
 	private var loaded = false
 		set(value) {
 			if (value) {
@@ -46,17 +38,7 @@ abstract class EntityFragment<T : Entity, B : ViewDataBinding>(val entityType: C
 		}
 	}
 
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-	                          savedInstanceState: Bundle?): View? {
-		// Inflate the layout for this fragment
-		binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
-		binding.setVariable(BR.entity, entity)
-		binding.setVariable(BR.fm, this)
-		return binding.root
-	}
-
-
-	fun onLoaded(callback: (EntityFragment<T, B>) -> Unit) {
+	fun onLoaded(callback: (EntityFragment<T>) -> Unit) {
 		if (loaded) {
 			callback(this)
 		} else {

@@ -1,7 +1,6 @@
 package me.schill.sr5sheet.model
 
 import android.databinding.Bindable
-import android.databinding.ObservableArrayList
 import com.fasterxml.jackson.annotation.JsonProperty
 import me.schill.sr5sheet.BR
 import me.schill.sr5sheet.persistence.Entity
@@ -19,7 +18,8 @@ class SR5Character : Entity() {
 		}
 
 	@JsonProperty
-	val properties = ObservableArrayList<Ref<Property>>()
+	@Bindable
+	val properties: MutableList<Ref<Property>> = ArrayList()
 		get() {
 			val properties = HashSet<UUID>()
 			field.forEach { properties.add(it.get().type.id) }
@@ -33,6 +33,7 @@ class SR5Character : Entity() {
 			return field
 		}
 
+	/*
 	@Bindable
 	@JsonProperty
 	var metatype = "Mensch"
@@ -120,6 +121,7 @@ class SR5Character : Entity() {
 			field = value
 			notifyPropertyChanged(BR.totalKarma)
 		}
+*/
 
 	override fun toString() = name
 }
