@@ -20,7 +20,10 @@ class CharacterManager {
 		    current = loadedCurrent
 	    } else {
 		    current = SR5Character()
-		    root.characters.add(Ref(current))
+		    current.postDeserialize()
+		    Persistence.save(current)?.let {
+			    root.characters += it
+		    }
 	    }
     }
 

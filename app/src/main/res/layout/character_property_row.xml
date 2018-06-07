@@ -17,7 +17,11 @@
 
 	<TableRow
 		android:layout_width="match_parent"
-		android:layout_height="match_parent">
+		android:layout_height="match_parent"
+		android:layout_marginBottom="@dimen/text_margin"
+		android:layout_marginTop="@dimen/text_margin"
+		android:longClickable="true"
+		android:onLongClick="@{fm.editRow(prop)}">
 
 		<TextView
 			android:layout_width="fill_parent"
@@ -26,7 +30,6 @@
 			android:layout_weight="2"
 			android:gravity="start|center_vertical"
 			android:longClickable="true"
-			android:onLongClick="@{fm.editRow(prop)}"
 			android:text="@{prop.name}"
 			android:textAppearance="@style/TextAppearance.AppCompat.Medium"
 			tools:text="Stärke" />
@@ -37,7 +40,6 @@
 			android:layout_gravity="end"
 			android:gravity="center"
 			android:longClickable="true"
-			android:onLongClick="@{fm.editRow(prop)}"
 			android:text="@{prop.valueDisplayString}"
 			android:textAppearance="@style/TextAppearance.AppCompat.Medium"
 			tools:text="3" />
