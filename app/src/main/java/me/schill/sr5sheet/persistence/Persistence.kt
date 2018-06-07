@@ -68,6 +68,7 @@ object Persistence : Observable.OnPropertyChangedCallback() {
 		val entity = cl.newInstance()
 		entity.id = id
 		entity.addOnPropertyChangedCallback(this)
+		entity.postDeserialize()
 		return entity
 	}
 

@@ -19,19 +19,28 @@ class SR5Character : Entity() {
 
 	@JsonProperty
 	@Bindable
-	val properties: MutableList<Ref<Property>> = ArrayList()
-		get() {
-			val properties = HashSet<UUID>()
-			field.forEach { properties.add(it.get().type.id) }
-			BuiltinDatabase.Properties.all
-					.filterKeys { !properties.contains(it) }
-					.forEach({ _, type ->
-						Persistence.save(type.createInstance())?.let {
-							field.add(it)
-						}
-					})
-			return field
+	var properties: List<Ref<Property>> = ArrayList()
+		set(value) {
+			field = value
+			notifyPropertyChanged(BR.properties)
 		}
+
+	override fun postDeserialize() {
+		super.postDeserialize()
+		val propertyIds = properties.map { it.get().type.id }.toSet()
+		val newProperties = ArrayList<Ref<Property>>()
+
+		BuiltinDatabase.Properties.defaults
+				.filterKeys { !propertyIds.contains(it) }
+				.forEach({ _, type ->
+					Persistence.save(type.createInstance())?.let {
+						newProperties.add(it)
+					}
+				})
+		if (newProperties.size > 0) {
+			properties += newProperties
+		}
+	}
 
 	/*
 	@Bindable

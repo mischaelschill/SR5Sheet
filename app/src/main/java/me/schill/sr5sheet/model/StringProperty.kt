@@ -22,6 +22,7 @@ class StringProperty() : Property() {
 		set(value) {
 			field = value
 			notifyPropertyChanged(BR.value)
+			notifyPropertyChanged(BR.valueDisplayString)
 		}
 
 	override val valueDisplayString: String

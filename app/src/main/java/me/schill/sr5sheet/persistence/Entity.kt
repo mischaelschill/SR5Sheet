@@ -35,4 +35,7 @@ abstract class Entity(id: UUID) : BaseObservable() {
 	fun setExtra(key: String, value: Any) {
 		extras[key] = value;
 	}
+
+	open fun postDeserialize() {
+	}
 }
